@@ -23,7 +23,25 @@ bot.use(sessionMiddleware);
 
 // Basic Commands
 bot.start((ctx) => {
-  ctx.reply('Welcome to Blockpulse AI! I am your Crypto AI Assistant. Use the menu below or type your question.', getMainMenuKeyboard(ctx.session));
+  const welcomeText = `👋 Welcome to Blockpulse AI
+
+Your guide to understanding crypto and DeFi without the confusion or the scams.
+
+Tell me what you need:
+1️⃣ Break down a DeFi concept
+2️⃣ Check if a project looks risky
+3️⃣ Get the latest Pulse updates`;
+
+  ctx.replyWithPhoto(
+    { url: `${env.APP_URL}/logo.jpg` },
+    {
+      caption: welcomeText,
+      ...getMainMenuKeyboard(ctx.session)
+    }
+  ).catch((err) => {
+    console.error('Failed to send welcome photo:', err);
+    ctx.reply(welcomeText, getMainMenuKeyboard(ctx.session));
+  });
 });
 
 bot.help((ctx) => {
