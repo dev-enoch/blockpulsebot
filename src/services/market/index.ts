@@ -24,7 +24,14 @@ ${JSON.stringify(boosted ? boosted.slice(0, 3) : [], null, 2)}
 Current Prices (USD & 24h Change):
 ${JSON.stringify(prices, null, 2)}
 
-Write a short market report. Include emojis. Be concise. Mention the DexScreener boosted tokens as high-risk trending picks.
+Write a clear, structured market report.
+DO NOT use any emojis.
+Format the output with clear separation of concerns using plain text dashed lines or capital letters.
+Include these distinct sections:
+1. MARKET OVERVIEW (Bitcoin price & 24h change)
+2. TRENDING TOKENS (CoinGecko highlights)
+3. HIGH RISK DEGEN PICKS (DexScreener boosts, clearly marked as very high risk)
+4. SAFETY REMINDER (A brief warning about volatility)
   `;
 
   return await generateChatResponse(prompt);
