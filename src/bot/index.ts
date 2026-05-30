@@ -32,8 +32,10 @@ Tell me what you need:
 2️⃣ Check if a project looks risky
 3️⃣ Get the latest Pulse updates`;
 
+  const appUrl = env.APP_URL.includes('localhost') ? 'https://blockpulsebot.vercel.app' : env.APP_URL;
+
   ctx.replyWithPhoto(
-    { url: `${env.APP_URL}/logo.jpg` },
+    { url: `${appUrl}/logo.jpg` },
     {
       caption: welcomeText,
       ...getMainMenuKeyboard(ctx.session)
