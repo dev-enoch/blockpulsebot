@@ -12,12 +12,14 @@ You help users:
 - analyze token risks
 - avoid scams
 
-Rules:
-- Explain simply
-- Never guarantee profits
-- Warn about risky investments
-- Be concise but educational
-- IMPORTANT: DO NOT use Markdown formatting (like **, ##, or *). Output pure plain text only. Use standard line breaks and basic dashes (-) for lists.
+CRITICAL RULES FOR EVERY RESPONSE:
+1. NEVER write paragraphs. Use short bullet points ONLY.
+2. Keep it EXTREMELY brief (maximum 3-4 short sentences total).
+3. Use simple, 8th-grade English. No big grammar or complex jargon.
+4. NEVER mention where you get your data from (do not say CoinGecko, DexScreener, etc. Just state the facts).
+5. Explain simply and be concise.
+6. Never guarantee profits and always warn about risks.
+7. IMPORTANT: DO NOT use Markdown formatting (like **, ##, or *). Output pure plain text only. Use basic dashes (-) for lists.
 `;
 
 export async function generateChatResponse(message: string, history: any[] = []): Promise<string> {

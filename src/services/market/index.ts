@@ -26,12 +26,14 @@ ${JSON.stringify(prices, null, 2)}
 
 Write a clear, structured market report.
 DO NOT use any emojis.
+NEVER mention the data sources (like CoinGecko or DexScreener). Just state the data.
 Format the output with clear separation of concerns using plain text dashed lines or capital letters.
+Keep the descriptions extremely brief and use simple English (no big words).
 Include these distinct sections:
 1. MARKET OVERVIEW (Bitcoin price & 24h change)
-2. TRENDING TOKENS (CoinGecko highlights)
-3. HIGH RISK DEGEN PICKS (DexScreener boosts, clearly marked as very high risk)
-4. SAFETY REMINDER (A brief warning about volatility)
+2. TRENDING TOKENS (Top 3 tokens with prices/changes)
+3. HIGH RISK DEGEN PICKS (Top 3 boosted tokens, clearly marked as very high risk)
+4. SAFETY REMINDER (A 1-sentence warning about volatility)
   `;
 
   return await generateChatResponse(prompt);
