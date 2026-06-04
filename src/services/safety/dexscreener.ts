@@ -23,6 +23,9 @@ export async function getTokenPairData(tokenAddress: string) {
       priceUsd: bestPair.priceUsd,
       liquidity: bestPair.liquidity,
       volume: bestPair.volume,
+      fdv: bestPair.fdv,
+      txns: bestPair.txns,
+      priceChange: bestPair.priceChange,
       pairCreatedAt: bestPair.pairCreatedAt,
     };
   } catch (error) {

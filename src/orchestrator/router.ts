@@ -11,11 +11,11 @@ export async function routeMessage(message: string, session: ISession): Promise<
 
   switch (intent) {
     case Intent.SAFETY:
-      const addressMatch = message.match(/0x[a-fA-F0-9]{40}/);
+      const addressMatch = message.match(/0x[a-fA-F0-9]{40}|[1-9A-HJ-NP-Za-km-z]{32,44}/);
       if (addressMatch) {
         return await analyzeTokenSafety(addressMatch[0]);
       }
-      return `[SAFETY] I detect you want to check token safety. Please provide a valid 0x contract address.`;
+      return `[SAFETY] I detect you want to check token safety. Please provide a valid 0x or Solana contract address.`;
       
     case Intent.LEARN:
       // Simple fallback - normally we would use the session topic

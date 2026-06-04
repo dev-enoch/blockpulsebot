@@ -14,7 +14,7 @@ export function detectIntent(message: string): Intent {
     return Intent.LEARN;
   }
   
-  if (lowerMsg.includes('safe') || lowerMsg.includes('scam') || lowerMsg.includes('risk') || lowerMsg.match(/0x[a-fA-F0-9]{40}/)) {
+  if (lowerMsg.includes('safe') || lowerMsg.includes('scam') || lowerMsg.includes('risk') || lowerMsg.match(/0x[a-fA-F0-9]{40}/) || message.match(/[1-9A-HJ-NP-Za-km-z]{32,44}/)) {
     return Intent.SAFETY;
   }
 
