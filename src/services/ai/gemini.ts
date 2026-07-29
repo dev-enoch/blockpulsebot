@@ -1,6 +1,5 @@
 import { ChatGoogleGenerativeAI } from '@langchain/google-genai';
-import { AgentExecutor, createToolCallingAgent } from 'langchain/agents';
-import { ChatPromptTemplate, MessagesPlaceholder } from '@langchain/core/prompts';
+import { createAgent } from 'langchain';
 import { DynamicTool } from '@langchain/core/tools';
 import { HumanMessage, AIMessage, SystemMessage } from '@langchain/core/messages';
 import { env } from '@/lib/env';
@@ -12,7 +11,7 @@ import SessionModel, { ISession } from '@/models/Session';
 
 // Initialize the model
 const model = new ChatGoogleGenerativeAI({
-  modelName: 'gemini-2.5-flash',
+  model: 'gemini-2.5-flash',
   apiKey: env.GEMINI_API_KEY || '',
   temperature: 0.3,
 });
@@ -70,23 +69,12 @@ If the user asks to learn about a topic:
 If you use a tool to get data, format the tool's raw output into a friendly, concise message following the rules above.
 `;
 
-const prompt = ChatPromptTemplate.fromMessages([
-  ['system', SYSTEM_PROMPT],
-  new MessagesPlaceholder('chat_history'),
-  ['human', '{input}'],
-  new MessagesPlaceholder('agent_scratchpad'),
-]);
-
-const agent = createToolCallingAgent({
-  llm: model,
+const agentExecutor = createAgent({
+  model,
   tools,
-  prompt,
+  systemPrompt: SYSTEM_PROMPT,
 });
 
-const agentExecutor = new AgentExecutor({
-  agent,
-  tools,
-});
 
 export async function generateChatResponse(message: string, session: ISession): Promise<string> {
   if (!env.GEMINI_API_KEY) {
@@ -101,11 +89,11 @@ export async function generateChatResponse(message: string, session: ISession): 
 
   try {
     const result = await agentExecutor.invoke({
-      input: message,
-      chat_history: chatHistory,
+      messages: [...chatHistory, new HumanMessage(message)],
     });
 
-    let text = result.output;
+    const lastMessage = result.messages[result.messages.length - 1];
+    let text = lastMessage.content as string;
     // Strip common markdown just in case the AI disobeys
     text = text.replace(/\*\*/g, '').replace(/### /g, '').replace(/## /g, '').replace(/# /g, '');
 
@@ -113,11 +101,11 @@ export async function generateChatResponse(message: string, session: ISession): 
     if (!session.messages) session.messages = [];
     session.messages.push({ role: 'human', content: message });
     session.messages.push({ role: 'assistant', content: text });
-    
+
     if (session.messages.length > 20) {
       session.messages = session.messages.slice(session.messages.length - 20);
     }
-    
+
     return text;
   } catch (error) {
     console.error('Error in Langchain Agent:', error);
